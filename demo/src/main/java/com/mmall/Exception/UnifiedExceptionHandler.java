@@ -1,0 +1,51 @@
+package com.mmall.Exception;
+
+import com.mmall.result.ResponseEnum;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
+
+@RestControllerAdvice
+public class UnifiedExceptionHandler {
+    @ExceptionHandler(value = mmallException.class)
+    public ModelAndView handlerException(mmallException e){
+        ModelAndView modelAndView = new ModelAndView();
+        ResponseEnum responseEnum = e.getResponseEnum();
+        switch ( responseEnum.getCode()){
+            case 300:
+                modelAndView.setViewName("register");
+                modelAndView.addObject("login in error", responseEnum.getMsg());
+                break;
+            case 301:
+                modelAndView.setViewName("register");
+                modelAndView.addObject("emailError", responseEnum.getMsg());
+                break;
+            case 302:
+                modelAndView.setViewName("register");
+                modelAndView.addObject("mobileError", responseEnum.getMsg());
+                break;
+            case 303:
+                modelAndView.setViewName("register");
+                modelAndView.addObject("userNameExist", responseEnum.getMsg());
+                break;
+            case 304:
+                modelAndView.setViewName("register");
+                modelAndView.addObject("registerError", responseEnum.getMsg());
+                break;
+            case 305:
+                modelAndView.setViewName("login");
+                modelAndView.addObject("userNameError",responseEnum.getMsg());
+                break;
+            case 306:
+                modelAndView.setViewName("login");
+                modelAndView.addObject("passwordError",responseEnum.getMsg());
+                break;
+            case 308:
+                modelAndView.setViewName("login");
+                break;
+
+        }
+        return modelAndView;
+    }
+}
